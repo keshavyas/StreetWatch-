@@ -147,7 +147,7 @@ export const NewsAlerts = () => {
             {usingMock && (
                 <div className="flex items-center gap-2 text-xs text-amber-400/80 bg-amber-500/10 border border-amber-500/20 rounded-lg px-4 py-2">
                     <AlertTriangle size={14} />
-                    <span>Showing simulated local news data. Live API results may be unavailable from browser (CORS).</span>
+                    <span>Real-time news processing is taking longer than expected. Showing simulated incident reports for your area.</span>
                 </div>
             )}
 

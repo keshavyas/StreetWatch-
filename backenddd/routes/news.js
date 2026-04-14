@@ -32,18 +32,36 @@ router.get('/news', async (req, res) => {
             });
         }
 
-        // Call NewsData.io
-        // country=in for India, language=en
-        const apiUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${encodeURIComponent(fullQuery)}&country=in&language=en`;
-        
-        const response = await axios.get(apiUrl);
+        // Add a primary fetch with a timeout
+        let rawArticles = [];
 
-        if (response.data.status !== 'success') {
-            throw new Error(response.data.message || 'Error fetching news from provider');
+        try {
+            const apiUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${encodeURIComponent(fullQuery)}&country=in&language=en`;
+            console.log(`Fetching news from: ${apiUrl.split('apikey=')[0]}apikey=***`);
+            
+            const response = await axios.get(apiUrl, { timeout: 10000 }); // 10s timeout
+            if (response.data.status === 'success') {
+                rawArticles = response.data.results || [];
+            }
+        } catch (error) {
+            console.warn(`Primary news fetch failed (${error.message}). Attempting fallback query...`);
+            
+            try {
+                // Fallback to a much simpler query (just the city name) if the primary one fails
+                const fallbackUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${encodeURIComponent(city || state)}&country=in&language=en`;
+                const response = await axios.get(fallbackUrl, { timeout: 8000 });
+                
+                if (response.data.status === 'success') {
+                    rawArticles = response.data.results || [];
+                    console.log('Fallback news query successful.');
+                }
+            } catch (fallbackError) {
+                console.error('All News API requests failed or timed out.');
+                throw fallbackError; // Re-throw to be caught by the outer catch block
+            }
         }
 
         // Filter and categorize the results
-        const rawArticles = response.data.results || [];
         const cleanArticles = filterNews(rawArticles);
 
         res.json(cleanArticles);
