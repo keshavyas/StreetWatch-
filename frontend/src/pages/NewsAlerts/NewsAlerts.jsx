@@ -3,8 +3,7 @@ import { GlassCard } from '../../components/GlassCard/GlassCard';
 import { Newspaper, Search, Clock, ExternalLink, AlertTriangle, Loader2, TrendingUp, MapPin, RefreshCw } from 'lucide-react';
 import { StateCityAreaFilter } from './StateCityAreaFilter';
 
-// NewsAPI key - free tier
-const NEWS_API_KEY = '5e4d57afbc5f4019a67c53c6a808bbf5';
+import { api } from '../../utils/api';
 
 // Fallback mock news for when API doesn't work (CORS, rate limit, etc.)
 const generateMockNews = (city, area) => {
@@ -45,36 +44,32 @@ export const NewsAlerts = () => {
         setError('');
         setUsingMock(false);
 
-        const query = selectedArea 
-            ? `${selectedCity} ${selectedArea}` 
-            : `${selectedCity} news`;
-
         try {
-            const res = await fetch(
-                `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&sortBy=publishedAt&pageSize=12&language=en&apiKey=${NEWS_API_KEY}`
-            );
-            
-            if (!res.ok) {
-                throw new Error(`API error: ${res.status}`);
-            }
+            // Call our secure backend instead of exposing API keys on frontend
+            const queryParams = new URLSearchParams({
+                state: selectedState,
+                city: selectedCity,
+                area: selectedArea
+            }).toString();
 
-            const data = await res.json();
+            const data = await api.get(`/news?${queryParams}`);
             
-            if (data.articles && data.articles.length > 0) {
-                setArticles(data.articles.filter(a => a.title !== '[Removed]'));
+            if (data && data.length > 0) {
+                setArticles(data);
             } else {
-                // No results from API, use mock
+                // No results from real API, use mock for better UI during demo
                 setArticles(generateMockNews(selectedCity, selectedArea));
                 setUsingMock(true);
             }
         } catch (err) {
-            console.warn('NewsAPI fetch failed, using mock data:', err.message);
+            console.warn('Backend news fetch failed, using mock data:', err.message);
+            setError('Could not fetch live news. Showing simulated updates.');
             setArticles(generateMockNews(selectedCity, selectedArea));
             setUsingMock(true);
         } finally {
             setLoading(false);
         }
-    }, [selectedCity, selectedArea]);
+    }, [selectedState, selectedCity, selectedArea]);
 
     useEffect(() => {
         fetchNews();

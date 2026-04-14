@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
+const newsRoutes = require('./routes/news');
 
 // Load env vars
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api', userRoutes);
+app.use('/api', newsRoutes);
 
 // Root route
 app.get('/', (req, res) => {
