@@ -1,0 +1,109 @@
+2026-05-07T18:49:52.753Z - TypeError: next is not a function
+    at model.<anonymous> (D:\Ai-project\backenddd\models\User.js:20:9)
+    at Kareem.execPre (D:\Ai-project\backenddd\node_modules\kareem\index.js:68:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+SDK Error: inference is not a function
+API Error: Request failed with status code 401
+API Error: Request failed with status code 401
+API Error: Request failed with status code 401
+API Error: Request failed with status code 401
+API Error: Request failed with status code 401
+API Error: Request failed with status code 401
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}
+API Error: Status 403: {"message":"Forbidden"}

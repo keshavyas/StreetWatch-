@@ -26,21 +26,66 @@ export const VideoResult = () => {
     }, [id]);
 
     const handleExportPDF = async () => {
-        if (!reportRef.current || !scanData) return;
+        if (!reportRef.current || !scanData) {
+            console.error('Export failed: missing ref or data');
+            return;
+        }
         
         try {
-            const canvas = await html2canvas(reportRef.current, { scale: 2, useCORS: true, backgroundColor: '#0f172a' });
-            const imgData = canvas.toDataURL('image/png');
+            console.log('Starting PDF Export...');
+            const element = reportRef.current;
+            
+            // Wait for any images to load just in case
+            const images = element.getElementsByTagName('img');
+            await Promise.all(Array.from(images).map(img => {
+                if (img.complete) return Promise.resolve();
+                return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
+            }));
+
+            const canvas = await html2canvas(element, { 
+                useCORS: true, 
+                logging: false,
+                backgroundColor: '#0f172a',
+                scale: 1.5,
+                scrollX: 0,
+                scrollY: -window.scrollY,
+                onclone: (clonedDoc) => {
+                    // Aggressive fix for oklch(), oklab() and other modern colors
+                    const allElements = clonedDoc.getElementsByTagName('*');
+                    for (let i = 0; i < allElements.length; i++) {
+                        const el = allElements[i];
+                        const style = window.getComputedStyle(el);
+                        
+                        ['backgroundColor', 'color', 'borderColor', 'outlineColor', 'fill', 'stroke'].forEach(prop => {
+                            if (style[prop] && (style[prop].includes('oklch') || style[prop].includes('oklab'))) {
+                                // Force standard colors for PDF compatibility
+                                if (prop === 'color') el.style.color = '#f8fafc';
+                                else if (prop === 'backgroundColor') el.style.backgroundColor = '#0f172a';
+                                else el.style[prop] = '#334155';
+                            }
+                        });
+                    }
+                }
+
+
+            });
+            
+            const imgData = canvas.toDataURL('image/jpeg', 0.8);
             const pdf = new jsPDF('p', 'mm', 'a4');
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
             
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
             pdf.save(`AI-CCTV-Report-${scanData._id}.pdf`);
+            console.log('PDF Export successful');
         } catch (err) {
-            console.error('PDF generation error', err);
+            console.error('PDF generation error details:', err);
+            alert('PDF Export failed: ' + err.message);
         }
     };
+
+
+
 
     if (loading || !scanData) return <div className="p-8 text-center text-cyan-400 text-xl">Loading Result...</div>;
 
@@ -86,8 +131,8 @@ export const VideoResult = () => {
                             />
                             
                             {/* Threat Overlay Simulator */}
-                            <div className="absolute top-4 right-4 bg-red-500/80 px-3 py-1 text-white text-xs font-bold rounded animate-pulse border border-red-600 shadow-[0_0_15px_red]">
-                                AI: {scanData.type} DETECTED
+                            <div className="absolute top-4 right-4 bg-red-500/90 px-4 py-2 text-white text-sm font-black rounded-lg animate-pulse border-2 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.6)] backdrop-blur-sm tracking-tighter">
+                                AI: {scanData.type.includes('DETECTED') ? scanData.type : `${scanData.type} DETECTED`}
                             </div>
                         </div>
 
@@ -101,8 +146,12 @@ export const VideoResult = () => {
                                     <div className="font-mono text-cyan-400 font-bold bg-cyan-500/10 px-2 py-1 h-fit rounded">{inc.timestamp}</div>
                                     <div>
                                         <p className="font-medium text-slate-200">{inc.description}</p>
-                                        <p className="text-xs text-slate-400 mt-1 uppercase">Severity: <span className={inc.severity === 'CRITICAL' || inc.severity === 'HIGH' ? 'text-red-400' : 'text-orange-400'}>{inc.severity}</span></p>
+                                        <div className="flex gap-4 mt-1">
+                                            <p className="text-xs text-slate-400 uppercase">Severity: <span className={inc.severity === 'CRITICAL' || inc.severity === 'HIGH' ? 'text-red-400' : 'text-orange-400'}>{inc.severity}</span></p>
+                                            <p className="text-xs text-slate-400 uppercase">Confidence: <span className="text-cyan-400">{inc.confidence}%</span></p>
+                                        </div>
                                     </div>
+
                                 </div>
                             ))}
                         </div>
