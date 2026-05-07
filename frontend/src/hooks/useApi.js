@@ -35,20 +35,11 @@ export const useApi = () => {
     const processVideoPayload = async (file) => {
         setLoading(true);
         
-        // Simulate processing delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
         try {
-            // Create a scan record in the database
-            const data = await api.post('/scans', {
-                incidents: [
-                    { timestamp: '00:15-22s', description: 'Fire detected in quadrant 4', severity: 'HIGH', confidence: 94 },
-                    { timestamp: '00:30-41s', description: 'Unauthorized entry attempt', severity: 'CRITICAL', confidence: 89 }
-                ],
-                location: 'Sector 7 - Indore Command',
-                threatScore: 85,
-                type: 'FIRE / THEFT',
-            });
+            const formData = new FormData();
+            formData.append('video', file);
+
+            const data = await api.postMultipart('/video/scan', formData);
             
             setLoading(false);
             return data.scan;
@@ -57,6 +48,7 @@ export const useApi = () => {
             throw error;
         }
     };
+
 
     const mockStats = {
         totalScans: 0,
