@@ -15,4 +15,4 @@ Subscription plans for organizations
 Scalable full-stack architecture
 Machine learning integration with Roboflow
 
-The platform is designed to improve public safety, operational efficiency, and smart surveillance management through AI-driven automation. Built using modern web technologies and machine learning workflows, Street Watch demonstrates practical implementation of real-time computer vision within a scalable security and monitoring ecosystem.
+The platform is designed to improve public safety, operational efficiency, and smart surveillance management through AI-driven automation. Built using modern web technologies and machine learning workflows, Street Watch demonstrates practical implementation of real-time computer 🚀vision within a scalable security and monitoring ecosystem.
