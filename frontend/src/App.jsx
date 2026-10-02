@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Layout } from './components/Layout';
+import { Toaster } from 'react-hot-toast';
 
 // Pages
 import { Login } from './pages/Login/Login';
@@ -28,6 +29,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <Toaster position="top-right" toastOptions={{ style: { background: '#1e293b', color: '#fff', border: '1px solid rgba(6, 182, 212, 0.2)' } }} />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

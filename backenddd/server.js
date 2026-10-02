@@ -24,6 +24,32 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+
+// Request and Response Logger Middleware
+app.use((req, res, next) => {
+    const logFile = path.join(process.cwd(), 'error.log');
+    const timestamp = new Date().toISOString();
+    const reqInfo = `${timestamp} - [REQUEST] ${req.method} ${req.url} - Auth: ${req.headers.authorization ? 'Present' : 'None'}\n`;
+    try {
+        fs.appendFileSync(logFile, reqInfo);
+    } catch (err) {}
+    
+    const originalSend = res.send;
+    res.send = function (body) {
+        let respInfo = `${new Date().toISOString()} - [RESPONSE] ${req.method} ${req.url} - Status: ${res.statusCode}\n`;
+        try {
+            respInfo += `Response Body: ${body.toString().substring(0, 1000)}\n`;
+        } catch (e) {
+            respInfo += `Response Error: ${e.message}\n`;
+        }
+        try {
+            fs.appendFileSync(logFile, respInfo);
+        } catch (err) {}
+        return originalSend.apply(res, arguments);
+    };
+    next();
+});
+
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads'), {
     setHeaders: (res) => {
         res.set('Access-Control-Allow-Origin', '*');

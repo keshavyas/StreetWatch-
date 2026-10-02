@@ -8,6 +8,8 @@ import { GlassCard } from '../../components/GlassCard/GlassCard';
 import { ScanningCylinder } from '../../components/3d/ScanningCylinder/ScanningCylinder';
 import { UploadCloud, FileVideo, ShieldAlert, CheckCircle2 } from 'lucide-react';
 
+import { toast } from 'react-hot-toast';
+
 export const VideoScan = () => {
     const { user } = useAuth();
     const { processVideoPayload, loading } = useApi();
@@ -32,6 +34,7 @@ export const VideoScan = () => {
     const handleScan = async () => {
         if (!file) return;
         setScanning(true);
+        setProgress(0);
         
         // Custom progress bar simulation
         const interval = setInterval(() => {
@@ -44,18 +47,26 @@ export const VideoScan = () => {
             });
         }, 300);
 
-        const result = await processVideoPayload(file);
-        
-        clearInterval(interval);
-        setProgress(100);
-        
-        if (result && result._id) {
-            setTimeout(() => {
-                navigate(`/result/${result._id}`);
-            }, 800);
-        } else {
+        try {
+            const result = await processVideoPayload(file);
+            clearInterval(interval);
+            setProgress(100);
+            
+            if (result && result._id) {
+                setTimeout(() => {
+                    navigate(`/result/${result._id}`);
+                }, 800);
+            } else {
+                setScanning(false);
+                toast.error("Scanning failed: Missing scan ID in result.");
+                console.error("Scan result missing ID");
+            }
+        } catch (error) {
+            clearInterval(interval);
             setScanning(false);
-            console.error("Scan result missing ID");
+            setProgress(0);
+            console.error("Scanning failed:", error);
+            toast.error(error.message || "Failed to scan video. Please try again.");
         }
     };
 

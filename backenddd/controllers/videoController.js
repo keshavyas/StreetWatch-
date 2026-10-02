@@ -24,9 +24,9 @@ const scanVideo = async (req, res) => {
             return res.status(400).json({ message: 'No video file uploaded' });
         }
 
-        const user = await User.findById(req.user._id);
+                const user = await User.findById(req.user._id);
         if (user.scansLeft <= 0) {
-            await fs.remove(req.file.path);
+            await fs.remove(req.file.path).catch(() => {});
             return res.status(400).json({ message: 'No scans left. Please upgrade your plan.' });
         }
 
@@ -156,8 +156,14 @@ const scanVideo = async (req, res) => {
         await user.save();
 
         // Cleanup
-        await fs.remove(videoPath);
-        await fs.remove(framesDir);
+        try {
+            await fs.remove(videoPath);
+            await fs.remove(framesDir);
+        } catch (cleanupError) {
+            console.error('Cleanup error (ignored):', cleanupError);
+            const errorLog = `${new Date().toISOString()} - Cleanup error: ${cleanupError.stack}\n`;
+            await fs.appendFile(path.join(process.cwd(), 'error.log'), errorLog).catch(() => {});
+        }
 
         res.status(200).json({
             success: true,
