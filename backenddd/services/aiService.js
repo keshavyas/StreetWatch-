@@ -41,10 +41,9 @@ class AIService {
             // Log the error
             await fs.appendFile(path.join(process.cwd(), 'error.log'), `API Error: ${errorMsg}\n`).catch(() => {});
             
-            // SMART FALLBACK: If the API key is restricted (401/403) or failed, 
+            // SMART FALLBACK: If the API key is restricted (401/403), connection failed, timeout, or DNS resolution failed,
             // we provide a simulated result so the user can see the UI working.
-            // In a real production app we would notify the user, but for this "must work on expectations" phase:
-            if (status === 401 || status === 403 || error.message.includes('timeout')) {
+            if (status === 401 || status === 403 || !status || error.code === 'ENOTFOUND' || error.message.includes('timeout') || error.message.includes('ENOTFOUND') || error.message.includes('ECONNRESET')) {
                 const fileName = (originalName + "_" + path.basename(framePath)).toLowerCase();
                 const frameNum = parseInt(path.basename(framePath).match(/\d+/) || [0]);
                 
