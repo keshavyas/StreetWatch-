@@ -1,3 +1,4 @@
+Deployed on https://streetwatch-two.vercel.app/
 Street Watch is an AI-powered smart surveillance platform designed to automate CCTV monitoring using computer vision and machine learning. The system integrates custom models developed through Roboflow to detect incidents such as accidents, fire outbreaks, and other critical public safety events in real time.
 
 The platform reduces dependency on continuous human monitoring by automatically analyzing live or recorded CCTV feeds and identifying suspicious or dangerous situations. Once an event is detected, the system can trigger alerts and provide rapid incident awareness, helping organizations improve response efficiency and operational safety.
